@@ -1,0 +1,93 @@
+/* Test case
+
+MANDATORY
+1) Accept only 4 commands
+    ./pipex ./file/in.txt "ls -l" "wc -l" ./file/out.txt
+    < ./file/in.txt ls -l | wc -l
+
+    ./pipex ./file/in.txt "ls -l" ./file/out.txt
+    ./pipex ./file/in.txt "ls -l" "wc -l" "cat" ./file/out.txt
+    ./pipex ./file/in.txt ./file/out.txt "ls -l" "wc -l"
+
+2) Error handling: Non-existing files
+    ./pipex blank.txt "ls -l" "wc -l" ./file/out.txt
+    < blank.txt ls -l | wc -l > ./file/out.txt
+
+    ./pipex ./file/in.txt "ls -l" "wc -l" ./file/new.txt
+    < ./file/in.txt ls -l | wc -l > ./file/new.txt
+
+    ./pipex ./file/here.txt "ls -l" "wc -l" ./file/here.txt
+    < ./file/here.txt ls -l | wc -l > ./file/here.txt
+
+
+3) Error handling: File permissions
+    ./pipex ./file/in.txt "ls -l" "wc -l" ./file/error-rdonly.txt
+    < ./file/in.txt ls -l | wc -l > ./file/error-rdonly.txt
+
+    ./pipex ./none.txt "ls -l" "wc -l" ./file/error-rdonly.txt
+    < ./none.txt ls -l | wc -l > ./file/error-rdonly.txt
+
+4) Error handling: Invalid commands
+    ./pipex ./file/in.txt "cat" "grep" ./file/out.txt
+	< ./file/in.txt cat | grep > ./file/out.txt
+
+    ./pipex ./file/in.txt "cat" "hh" ./file/out.txt
+    < ./file/in.txt cat | hh > ./file/out.txt
+
+    ./pipex ./file/in.txt "cat" "" ./file/out.txt
+    < ./file/in.txt cat |  > ./file/out.txt
+    
+    ./pipex ./file/in.txt "wrong_command" "wc -l" ./file/out.txt
+    < ./file/in.txt wrong_command | wc -l > ./file/out.txt
+
+    ./pipex ./file/in.txt "cat" "wc -q" ./file/out.txt
+    < ./file/in.txt cat | wc -q > ./file/out.txt
+	
+More
+====
+    ./pipex ./file/in.txt "cat" "wc -l" ./file/new.txt
+	< ./file/in.txt cat | wc -l
+    
+    ./pipex ./file/in.txt "cat" "tr a-z A-Z" ./file/out.txt
+    < ./file/in.txt cat | tr a-z A-Z
+	
+    ./pipex ./file/in.txt "ls" "cat" ./file/out.txt
+    < ./file/in.txt ls | cat
+
+    ./pipex ./file/in.txt "cat" "cat" ./file/out.txt
+    < ./file/in.txt cat | cat
+
+    ./pipex "/dev/stdin" "cat" "head -1" ./file/out.txt
+    < /dev/stdin cat | head -1 > ./file/here.txt
+
+*****************************************************************************
+BONUS
+
+0) Argument less than 4
+	./pipex ./file/in.txt "cat" ./file/out.txt
+
+1) Invalid cmd > 4 arg
+	./pipex ./file/in.txt "ls -l" "cat -p" "wc -w -w" ./file/out.txt 
+    < ./file/in.txt ls -l | cat -p | wc -w -w > ./file/out.txt 
+    
+2) Here_doc argument less than 5
+	./pipex here_doc EOF "ls" ./file/out.txt
+
+4) Here_doc wrong spelling
+	./pipex here_doc! EOF "ls" "cat" ./file/out.txt 
+
+5) Here_doc with diffirent LIMITER
+	./pipex here_doc "ghost" "cat" "wc -c" ./file/out.txt
+    cat << ghost | wc -c >> ./file/here.txt
+
+	./pipex here_doc _TEST! "cat" "cat" ./file/out.txt
+    cat << _TEST! | cat >> ./file/here.txt
+
+More 
+	./pipex ./file/in.txt "grep alter" "sort" "uniq" ./file/out.txt
+    < ./file/in.txt grep alter | sort | uniq
+
+    ./pipex ./file/in.txt "ls" "cat" "cat" "cat" "cat" "cat" ./file/out.txt
+    < ./file/in.txt ls | cat | cat | cat | cat | cat
+
+
