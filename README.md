@@ -13,6 +13,13 @@ An introduction to pipes (|) and how commands are executed inside a shell.
 
 ---
 
+### **Key Learnings**
+- Understand file descriptors and how to redirect the flow of data using them
+- Learn how pipes enable communication between multiple programs
+- Understand how  shell executes commands and child process
+
+---
+
 ### **About**
 
 👉 [**Project requirement**](https://github.com/Mecha-Coder/42-pipex/blob/main/demo/en.subject.pdf)
@@ -34,10 +41,9 @@ Since this project focuses on the execution side, the input command structure is
 
 ---
 
-### **Learnings**
-- Understand file descriptors and how to redirect the flow of data using them
-- Learn how pipes enable communication between multiple programs
-- how a shell executes commands and manages processes
+### **Demo**
+
+![demo](https://github.com/Mecha-Coder/42-pipex/blob/main/demo/demo.gif)
 
 ---
 
@@ -65,10 +71,4 @@ make bonus
 ---
 
 ### **Resource**
-
---- 
-
-### **Demo**
-
-![demo](https://github.com/Mecha-Coder/42-pipex/blob/main/demo/demo.gif)
 
